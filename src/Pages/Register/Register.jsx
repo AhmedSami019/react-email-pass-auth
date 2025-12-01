@@ -19,8 +19,8 @@ const Register = () => {
         console.log(result);
       })
       .catch((error) => {
-        console.log(error);
-        setErrorMassage(error.massage)
+        console.log(error.code);
+        setErrorMassage(error.code)
       });
   };
 
@@ -101,6 +101,9 @@ const Register = () => {
         <br />
 
         <input className="btn btn-primary" type="submit" value="Sign up" />
+        {
+            errorMassage && <p className="text-red-400 mt-5">{errorMassage}</p>
+        }
       </form>
     </div>
   );
