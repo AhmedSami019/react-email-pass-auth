@@ -14,7 +14,7 @@ const Register = () => {
     <div className="w-11/12 mx-auto text-center space-y-5">
       <h2>this is register page</h2>
 
-      <form onSubmit={handleRegister} className="w-3/12 mx-auto flex flex-col border border-gray-300 p-10 rounded-2xl bg-gray-800">
+      <form onSubmit={handleRegister} className="max-w-sm mx-auto flex flex-col border border-gray-300 p-6 rounded-2xl bg-gray-800">
         {/* this is email field */}
         <label className="input validator w-full">
           <svg
@@ -62,7 +62,7 @@ const Register = () => {
             name="password"
             required
             placeholder="Password"
-            minlength="8"
+            minLength="8"
             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
             title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
           />
