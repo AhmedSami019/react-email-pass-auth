@@ -1,27 +1,38 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import React from "react";
+import React, { useState } from "react";
 import { auth } from "../../firebase.init";
 
 const Register = () => {
+  const [errorMassage, setErrorMassage] = useState("");
 
-    const handleRegister = e => {
-        e.preventDefault()
-        const email = e.target.email.value
-        const passowrd = e.target.password.value
-        console.log(email, passowrd);
+  const handleRegister = (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const passowrd = e.target.password.value;
+    console.log(email, passowrd);
 
-        createUserWithEmailAndPassword(auth, email, passowrd)
-        .then(result => {
-            console.log(result)
-        }).catch(error=> console.log(error))
+    // initial error massage
+    setErrorMassage("");
 
-    }
+    createUserWithEmailAndPassword(auth, email, passowrd)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+        setErrorMassage(error.massage)
+      });
+  };
 
   return (
     <div className="w-11/12 mx-auto text-center space-y-5">
       <h2>this is register page</h2>
 
-      <form onSubmit={handleRegister} className="max-w-sm mx-auto flex flex-col border border-gray-300 p-6 rounded-2xl bg-gray-800">
+      <form
+        onSubmit={handleRegister}
+        className="max-w-sm mx-auto flex flex-col border border-gray-300 p-6 rounded-2xl bg-gray-800 mt-10"
+      >
+        <h2 className="text-2xl font-medium mb-5">Create Account</h2>
         {/* this is email field */}
         <label className="input validator w-full">
           <svg
@@ -40,7 +51,12 @@ const Register = () => {
               <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
             </g>
           </svg>
-          <input type="email" name="email" placeholder="mail@site.com" required />
+          <input
+            type="email"
+            name="email"
+            placeholder="mail@site.com"
+            required
+          />
         </label>
         <div className="validator-hint hidden">Enter valid email address</div>
 
@@ -85,7 +101,6 @@ const Register = () => {
         <br />
 
         <input className="btn btn-primary" type="submit" value="Sign up" />
-    
       </form>
     </div>
   );
