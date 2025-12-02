@@ -4,6 +4,7 @@ import { auth } from "../../firebase.init";
 
 const Register = () => {
   const [errorMassage, setErrorMassage] = useState("");
+  const [success, setSuccess] = useState(false)
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -11,12 +12,14 @@ const Register = () => {
     const passowrd = e.target.password.value;
     console.log(email, passowrd);
 
-    // initial error massage
+    // initial massage
+    setSuccess(false)
     setErrorMassage("");
 
     createUserWithEmailAndPassword(auth, email, passowrd)
       .then((result) => {
         console.log(result);
+        setSuccess(true)
       })
       .catch((error) => {
         console.log(error.code);
@@ -103,6 +106,9 @@ const Register = () => {
         <input className="btn btn-primary" type="submit" value="Sign up" />
         {
             errorMassage && <p className="text-red-400 mt-5">{errorMassage}</p>
+        }
+        {
+          success && <p className="text-green-500 mt-5">user has created successfully</p>
         }
       </form>
     </div>
