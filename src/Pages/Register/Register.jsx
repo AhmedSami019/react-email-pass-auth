@@ -1,31 +1,39 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { auth } from "../../firebase.init";
+import { Eye, EyeClosed } from "lucide-react";
 
 const Register = () => {
   const [errorMassage, setErrorMassage] = useState("");
-  const [success, setSuccess] = useState(false)
+  const [success, setSuccess] = useState(false);
 
   const handleRegister = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
-    const passowrd = e.target.password.value;
-    console.log(email, passowrd);
+    const password = e.target.password.value;
+    console.log(email, password);
 
     // initial massage
-    setSuccess(false)
+    setSuccess(false);
     setErrorMassage("");
 
-    createUserWithEmailAndPassword(auth, email, passowrd)
+    createUserWithEmailAndPassword(auth, email, password)
       .then((result) => {
         console.log(result);
-        setSuccess(true)
+        setSuccess(true);
       })
       .catch((error) => {
         console.log(error.code);
-        setErrorMassage(error.code)
+        setErrorMassage(error.code);
       });
   };
+
+  // to show and hide password
+    const [passwordVisible, setPasswordVisible] = useState(false)
+
+    const showAndHidePassword = ()=>{
+      setPasswordVisible(!passwordVisible)
+    }
 
   return (
     <div className="w-11/12 mx-auto text-center space-y-5">
@@ -83,15 +91,25 @@ const Register = () => {
               <circle cx="16.5" cy="7.5" r=".5" fill="currentColor"></circle>
             </g>
           </svg>
-          <input
-            type="password"
-            name="password"
-            required
-            placeholder="Password"
-            minLength="8"
-            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-            title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
-          />
+          <div className="relative">
+            <input
+              type={passwordVisible ? "text": "password"}
+              name="password"
+              required
+              placeholder="Password"
+              minLength="8"
+              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+              title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
+            />
+            <button onClick={showAndHidePassword} className="absolute -right-26">
+              {
+                passwordVisible? 
+                <Eye color="gray"></Eye>:
+                <EyeClosed color="gray"></EyeClosed>
+
+              }
+            </button>
+          </div>
         </label>
         <p className="validator-hint hidden">
           Must be more than 8 characters, including
@@ -104,12 +122,10 @@ const Register = () => {
         <br />
 
         <input className="btn btn-primary" type="submit" value="Sign up" />
-        {
-            errorMassage && <p className="text-red-400 mt-5">{errorMassage}</p>
-        }
-        {
-          success && <p className="text-green-500 mt-5">user has created successfully</p>
-        }
+        {errorMassage && <p className="text-red-400 mt-5">{errorMassage}</p>}
+        {success && (
+          <p className="text-green-500 mt-5">user has created successfully</p>
+        )}
       </form>
     </div>
   );
