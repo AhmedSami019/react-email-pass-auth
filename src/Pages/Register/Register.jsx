@@ -33,6 +33,7 @@ const Register = () => {
 
     const showAndHidePassword = ()=>{
       setPasswordVisible(!passwordVisible)
+      return
     }
 
   return (
