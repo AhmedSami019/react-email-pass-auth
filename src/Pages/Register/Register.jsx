@@ -11,12 +11,18 @@ const Register = () => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
-    console.log(email, password);
+    const terms = e.target.terms.checked;
+    console.log(email, password, terms);
 
+    
     // initial massage
     setSuccess(false);
     setErrorMassage("");
-
+    
+    if(!terms){
+      setErrorMassage("please except out terms & condition")
+      return
+    }
     createUserWithEmailAndPassword(auth, email, password)
       .then((result) => {
         console.log(result);
@@ -29,12 +35,12 @@ const Register = () => {
   };
 
   // to show and hide password
-    const [passwordVisible, setPasswordVisible] = useState(false)
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
-    const showAndHidePassword = ()=>{
-      setPasswordVisible(!passwordVisible)
-      return
-    }
+  const showAndHidePassword = () => {
+    setPasswordVisible(!passwordVisible);
+    return;
+  };
 
   return (
     <div className="w-11/12 mx-auto text-center space-y-5">
@@ -94,7 +100,7 @@ const Register = () => {
           </svg>
           <div className="relative">
             <input
-              type={passwordVisible ? "text": "password"}
+              type={passwordVisible ? "text" : "password"}
               name="password"
               required
               placeholder="Password"
@@ -102,15 +108,22 @@ const Register = () => {
               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
               title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
             />
-            <button onClick={showAndHidePassword} className="absolute -right-26">
-              {
-                passwordVisible? 
-                <Eye color="gray"></Eye>:
+            <button
+              onClick={showAndHidePassword}
+              className="absolute -right-26"
+            >
+              {passwordVisible ? (
+                <Eye color="gray"></Eye>
+              ) : (
                 <EyeClosed color="gray"></EyeClosed>
-
-              }
+              )}
             </button>
           </div>
+        </label>
+        {/* this is checkbox for terms */}
+        <label className="label mt-7">
+          <input type="checkbox" name="terms" className="checkbox" />
+          Except terms & condition
         </label>
         <p className="validator-hint hidden">
           Must be more than 8 characters, including
