@@ -1,7 +1,8 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { auth } from "../../firebase.init";
-import { Eye, EyeClosed } from "lucide-react";
+import { Eye, EyeClosed, } from "lucide-react";
+import { Link, NavLink } from "react-router";
 
 const Register = () => {
   const [errorMassage, setErrorMassage] = useState("");
@@ -14,14 +15,13 @@ const Register = () => {
     const terms = e.target.terms.checked;
     console.log(email, password, terms);
 
-    
     // initial massage
     setSuccess(false);
     setErrorMassage("");
-    
-    if(!terms){
-      setErrorMassage("please except out terms & condition")
-      return
+
+    if (!terms) {
+      setErrorMassage("please except out terms & condition");
+      return;
     }
     createUserWithEmailAndPassword(auth, email, password)
       .then((result) => {
@@ -140,6 +140,10 @@ const Register = () => {
         {success && (
           <p className="text-green-500 mt-5">user has created successfully</p>
         )}
+        <p className="flex text-start mt-4">
+          Already have an Account? please  {""}  
+         <Link className="text-blue-500 underline ml-2" to="/login"> Login</Link>
+        </p>
       </form>
     </div>
   );
