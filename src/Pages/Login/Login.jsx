@@ -1,12 +1,27 @@
-import React from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import React, { useState } from "react";
+import { auth } from "../../firebase.init";
 
 const Login = () => {
+    
+    const [errorMassage, setErrorMassage] = useState('')
 
     const handleLogin = e => {
         e.preventDefault()
         const email = e.target.email.value
         const password = e.target.password.value
         console.log(email, password);
+
+        // default value
+        setErrorMassage('')
+
+        signInWithEmailAndPassword(auth, email, password)
+        .then(result => {
+            console.log(result.user);
+        }).catch(error => {
+            console.log(error);
+            setErrorMassage(error.code)
+        })
     }
 
   return (
@@ -24,6 +39,9 @@ const Login = () => {
           </div>
           <button className="btn btn-neutral mt-4">Login</button>
         </form>
+        {
+            errorMassage && <p className="text-red-500">{errorMassage}</p>
+        }
       </div>
     </div>
   );
