@@ -1,7 +1,10 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 import React, { useState } from "react";
 import { auth } from "../../firebase.init";
-import { Eye, EyeClosed, } from "lucide-react";
+import { Eye, EyeClosed } from "lucide-react";
 import { Link, NavLink } from "react-router";
 
 const Register = () => {
@@ -26,7 +29,12 @@ const Register = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((result) => {
         console.log(result);
-        setSuccess(true);
+
+        // for email verification
+        sendEmailVerification(result.user).then(() => {
+          setSuccess(true);
+          alert("check your mail for verification");
+        });
       })
       .catch((error) => {
         console.log(error.code);
@@ -141,8 +149,11 @@ const Register = () => {
           <p className="text-green-500 mt-5">user has created successfully</p>
         )}
         <p className="flex text-start mt-4">
-          Already have an Account? please  {""}  
-         <Link className="text-blue-500 underline ml-2" to="/login"> Login</Link>
+          Already have an Account? please {""}
+          <Link className="text-blue-500 underline ml-2" to="/login">
+            {" "}
+            Login
+          </Link>
         </p>
       </form>
     </div>
