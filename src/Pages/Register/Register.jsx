@@ -1,6 +1,7 @@
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
+  updateProfile,
 } from "firebase/auth";
 import React, { useState } from "react";
 import { auth } from "../../firebase.init";
@@ -13,6 +14,8 @@ const Register = () => {
 
   const handleRegister = (e) => {
     e.preventDefault();
+    const name = e.target.name.value
+    const photo = e.target.name.value
     const email = e.target.email.value;
     const password = e.target.password.value;
     const terms = e.target.terms.checked;
@@ -35,6 +38,12 @@ const Register = () => {
           setSuccess(true);
           alert("check your mail for verification");
         });
+
+        const userData = {
+          displayName : name, 
+          photoURL: photo
+        }
+        updateProfile(auth.currentUser, userData)
       })
       .catch((error) => {
         console.log(error.code);
@@ -59,8 +68,27 @@ const Register = () => {
         className="max-w-sm mx-auto flex flex-col border border-gray-300 p-6 rounded-2xl bg-gray-800 mt-10"
       >
         <h2 className="text-2xl font-medium mb-5">Create Account</h2>
-        {/* this is email field */}
+        {/* this is name field */}
         <label className="input validator w-full">
+          <input
+            type="text"
+            name="name"
+            placeholder="Place your name"
+            required
+          />
+        </label>
+        
+        {/* this is photo field */}
+        <label className="input validator w-full mt-5">
+          <input
+            type="text"
+            name="photo"
+            placeholder="place photo URL"
+            required
+          />
+        </label>
+        {/*  */}
+        <label className="input validator w-full mt-5">
           <svg
             className="h-[1em] opacity-50"
             xmlns="http://www.w3.org/2000/svg"

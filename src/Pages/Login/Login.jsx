@@ -34,12 +34,13 @@ const Login = () => {
   };
 
   const handleResetPassword = ()=>{
+    setErrorMassage('')
     const email = emailRef.current.value
     sendPasswordResetEmail(auth, email)
     .then(()=>{
       alert("check your mail for reset password")
     }).catch(error=> {
-      alert(error.code)
+      setErrorMassage(error.code)
     })
 
   }
